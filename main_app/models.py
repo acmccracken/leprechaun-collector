@@ -11,11 +11,23 @@ MEALS = (
     ('L', 'Lucky Charms')
 )
 
+class Weapon(models.Model):
+  name = models.CharField(max_length=50)
+  special = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('weapons_detail', kwargs={'pk': self.id})
+
 class Leprechaun(models.Model): 
     name = models.CharField(max_length=100)
     power = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
+    weapons = models.ManyToManyField(Weapon)
+
     def __str__(self):
         return self.name
     def fed_for_today(self):

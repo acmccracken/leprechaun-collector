@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Leprechaun
+from django.views.generic import ListView, DetailView
+from .models import Leprechaun, Weapon
 from .forms import FeedingForm
-from django.http import HttpResponse
 
 # Define the home view
 def home(request):
-  return HttpResponse('Home')
+  return render(request, 'home.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -42,3 +42,21 @@ class LeprechaunUpdate(UpdateView):
 class LeprechaunDelete(DeleteView):
   model = Leprechaun
   success_url = '/leprechauns/'
+
+class WeaponList(ListView):
+  model = Weapon
+
+class WeaponDetail(DetailView):
+  model = Weapon
+
+class WeaponCreate(CreateView):
+  model = Weapon
+  fields = '__all__'
+
+class WeaponUpdate(UpdateView):
+  model = Weapon
+  fields = ['name', 'special']
+
+class WeaponDelete(DeleteView):
+  model = Weapon
+  success_url = '/weapons/'
