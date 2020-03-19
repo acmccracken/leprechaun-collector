@@ -18,8 +18,9 @@
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;LeprechaunCollector</a></li>
         </ul>
         <ul class="right">
-          <li><a href="/about">About</a></li>
-          <li><a href="/leprechauns">View All My Leprechauns</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'leprechauns_create' %}">Capture a Leprechaun</a></li>
+          <li><a href="{% url 'index' %}">Leprechaun Exchange</a></li>
         </ul>
       </div>
     </nav>

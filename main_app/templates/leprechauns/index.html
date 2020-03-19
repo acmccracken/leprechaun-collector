@@ -4,18 +4,16 @@
 <h1>Leprechaun List</h1>
 
 {% for leprechaun in leprechauns %}
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title">{{ leprechaun.name }}</span>
-      <p>Powers: {{ leprechaun.powers }}</p>
-      <p>Description: {{ leprechaun.description }}</p>
-      {% if leprechaun.age > 0 %}
-        <p>Age: {{ leprechaun.age }}</p>
-      {% else %}
-        <p>Age: hatchling</p>
-      {% endif %}
-    </div>
-  </div>
+    <a href="{% url 'detail' leprechaun.id %}">
+        <div class="card">
+            <div class="card-content">
+            <span class="card-title">{{ leprechaun.name }}</span>
+            <p>Powers: {{ leprechaun.power }}</p>
+            <p>Description: {{ leprechaun.description }}</p>
+            <p>Age: {{ leprechaun.age }}</p>
+            </div>
+        </div>
+    </a>
 {% endfor %}
 
 {% endblock %}

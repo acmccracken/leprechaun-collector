@@ -1,16 +1,34 @@
 from django.db import models
+from django.urls import reverse
+
 
 # Create your models here.
 
-class Leprechaun:  # Note that parens are optional if not inheriting from another class
-  def __init__(self, name, power, description, age):
-    self.name = name
-    self.power = power
-    self.description = description
-    self.age = age
+MEALS = (
+    ('G', 'Guinness'),
+    ('C', 'Cookies'),
+    ('L', 'Lucky Charms')
+)
 
-leprechauns = [
-  Leprechaun('Frederick', 'tabby', 'foul little demon', 3),
-  Leprechaun('Ohoulihan', 'tortoise shell', 'diluted tortoise shell', 0),
-  Leprechaun('McGill', 'black tripod', '3 legged leprechaun', 4)
-]
+class Leprechaun(models.Model): 
+    name = models.CharField(max_length=100)
+    power = models.CharField(max_length=100)
+    description = models.TextField(max_length=250)
+    age = models.IntegerField()
+    def __str__(self):
+        return self.name
+
+class Feeding(models.Model):
+  date = models.DateField()
+  meal = models.CharField( 
+    max_length=1,
+    choices=MEALS,
+    default=MEALS[0][0]
+  )
+  leprechaun = models.ForeignKey(Leprechaun, on_delete=models.CASCADE)
+
+def __str__(self):
+    return f"{self.get_meal_display()} on {self.date}"   
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'leprechaun_id': self.id})
