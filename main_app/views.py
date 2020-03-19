@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Leprechaun
+from .forms import FeedingForm
 from django.http import HttpResponse
 
 # Define the home view
@@ -16,7 +17,17 @@ def leprechauns_index(request):
 
 def leprechauns_detail(request, leprechaun_id):
   leprechaun = Leprechaun.objects.get(id=leprechaun_id)
-  return render(request, 'leprechauns/detail.html', { 'leprechaun': leprechaun })
+  feeding_form = FeedingForm()
+  return render(request, 'leprechauns/detail.html', {
+    'leprechaun': leprechaun, 'feeding_form': feeding_form
+  })
+def add_feeding(request, leprechaun_id):
+  form = FeedingForm(request.POST)
+  if form.is_valid():
+    new_feeding = form.save(commit=False)
+    new_feeding.leprechaun_id = leprechaun_id
+    new_feeding.save()
+  return redirect('detail', leprechaun_id=leprechaun_id)
 
 class LeprechaunCreate(CreateView):
   model = Leprechaun

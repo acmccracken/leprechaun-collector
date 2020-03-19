@@ -9,4 +9,5 @@ urlpatterns = [
     path('leprechauns/create/', views.LeprechaunCreate.as_view(), name='leprechauns_create'),
     path('leprechauns/<int:pk>/update/', views.LeprechaunUpdate.as_view(), name='leprechauns_update'),
     path('leprechauns/<int:pk>/delete/', views.LeprechaunDelete.as_view(), name='leprechauns_delete'),
+    path('leprechauns/<int:leprechaun_id>/add_feeding/', views.add_feeding, name='add_feeding'),
 ]
