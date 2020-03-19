@@ -17,9 +17,11 @@ def leprechauns_index(request):
 
 def leprechauns_detail(request, leprechaun_id):
   leprechaun = Leprechaun.objects.get(id=leprechaun_id)
+  weapons_leprechaun_doesnt_have = Weapon.objects.exclude(id__in = leprechaun.weapons.all().values_list('id'))
   feeding_form = FeedingForm()
   return render(request, 'leprechauns/detail.html', {
-    'leprechaun': leprechaun, 'feeding_form': feeding_form
+    'leprechaun': leprechaun, 'feeding_form': feeding_form,
+    'weapons': weapons_leprechaun_doesnt_have
   })
 def add_feeding(request, leprechaun_id):
   form = FeedingForm(request.POST)
@@ -27,6 +29,11 @@ def add_feeding(request, leprechaun_id):
     new_feeding = form.save(commit=False)
     new_feeding.leprechaun_id = leprechaun_id
     new_feeding.save()
+  return redirect('detail', leprechaun_id=leprechaun_id)
+
+def assoc_weapon(request, leprechaun_id, weapon_id):
+  # Note that you can pass a weapon's id instead of the whole object
+  Leprechaun.objects.get(id=leprechaun_id).weapons.add(weapon_id)
   return redirect('detail', leprechaun_id=leprechaun_id)
 
 class LeprechaunCreate(CreateView):
